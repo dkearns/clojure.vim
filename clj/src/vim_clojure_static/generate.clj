@@ -270,9 +270,9 @@
     ;; Exception handling
     '#{catch}))
 
-
-;;; --------------------------------------
-;;; Vimscript literals
+;;
+;; Vimscript literals
+;;
 
 (def vim-keywords
   "Vimscript literal dictionary of important identifiers."
