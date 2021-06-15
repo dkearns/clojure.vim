@@ -104,21 +104,22 @@
 
 ;; TODO: update all usages of this function (preiously variable)
 (defn keyword-groups [namespace]
-  (let* [vars (vars-in-ns namespace)
-         compiler-specials (keys (. clojure.lang.Compiler specials))
-         exceptions   '#{throw try catch finally}
-         repeat       '#{doseq dotimes while loop loop* recur}
-         conditionals '#{case cond cond-> cond->> condp
-                         if if* if-let if-not if-some
-                         when when-first when-let when-not when-some}
-         define (set (filter define?
-                             (set/union (map :name vars)
-                                        compiler-specials)))
-         macros    (filter-vars :macro vars)
-         functions (filter-vars function? vars)
-         variables (filter-vars variable? vars)
-         special   (set (set/union (filter-vars :special-form vars)
-                                   compiler-specials))]
+  (let [vars (vars-in-ns namespace)
+        compiler-specials (keys (. clojure.lang.Compiler specials))
+        exceptions   '#{throw try catch finally}
+        repeat       '#{doseq dotimes while loop loop* recur}
+        conditionals '#{case case*
+                        cond cond-> cond->> condp
+                        if if* if-let if-not if-some
+                        when when-first when-let when-not when-some}
+        define (set (filter define?
+                            (set/union (map :name vars)
+                                       compiler-specials)))
+        macros    (filter-vars :macro vars)
+        functions (filter-vars function? vars)
+        variables (filter-vars variable? vars)
+        special   (set (set/union (filter-vars :special-form vars)
+                                  compiler-specials))]
     {"clojureBoolean"   '#{true false}
      "clojureConstant"  '#{nil}
      "clojureException" exceptions
